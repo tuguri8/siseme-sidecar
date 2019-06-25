@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     platform: h2
-    url: jdbc:h2:mem:liliput;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    url: jdbc:h2:mem:shorturl;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     initialize: true
   profiles:
