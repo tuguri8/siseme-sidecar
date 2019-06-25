@@ -9,10 +9,14 @@ spring:
     initialize: true
   profiles:
     active: local
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 spring.jpa:
   database: MYSQL
-  showSql: false
+  showSql: true
   properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   properties.hibernate.hbm2ddl.auto: create-drop
   properties.hibernate.format_sql: true

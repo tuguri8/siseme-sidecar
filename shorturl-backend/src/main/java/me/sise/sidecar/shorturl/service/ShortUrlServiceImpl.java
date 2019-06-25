@@ -1,15 +1,18 @@
 package me.sise.sidecar.shorturl.service;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
 import me.sise.sidecar.shorturl.common.utils.ShortUrlBuilder;
 import me.sise.sidecar.shorturl.repository.entity.ShortUrl;
 import me.sise.sidecar.shorturl.repository.entity.ShortUrlRepository;
 import me.sise.sidecar.shorturl.service.exception.UrlShorteningFailureException;
 import me.sise.sidecar.shorturl.service.model.ShortUrlModel;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Service
 public class ShortUrlServiceImpl implements ShortUrlService {
@@ -60,4 +63,26 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                                              .format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
         return shortUrlModel;
     }
+    
+    @Override
+	public List<ShortUrlModel> getAllShortUrl() {
+
+		List<ShortUrlModel> result = new ArrayList<ShortUrlModel>();
+		List<ShortUrl> list = shortUrlRepository.findAll();
+		list.forEach(shortUrl -> {
+			ShortUrlModel shortUrlModel = transform(shortUrl);
+			result.add(shortUrlModel);
+		});
+		return result;
+	}
+
+	@Override
+	public int deleteShortUrl(String path) {
+		return shortUrlRepository.deleteByPath(path);
+	}
+
+	@Override
+	public void deleteAllShortUrl() {
+		shortUrlRepository.deleteAll();
+	}
 }
