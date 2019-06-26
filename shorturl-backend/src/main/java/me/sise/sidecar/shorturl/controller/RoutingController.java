@@ -21,7 +21,7 @@ public class RoutingController {
         this.routeLogService = routeLogService;
     }
 
-    @GetMapping("/{path}")
+    @GetMapping("/test/{path}")
     public String route(@PathVariable String path, HttpServletRequest request) {
         logging(path, request);
         return StringUtils.join(REDIRECT_PREFIX, shortUrlService.getRouteUrl(path));

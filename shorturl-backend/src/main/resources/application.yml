@@ -9,6 +9,9 @@ spring:
     initialize: true
   profiles:
     active: local
+  h2:
+    console:
+      enabled: true
 
 spring.jpa:
   database: MYSQL

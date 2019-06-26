@@ -9,7 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ShortUrlServiceImpl implements ShortUrlService {
@@ -43,8 +45,52 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
     @Override
     public String getRouteUrl(String path) {
-        ShortUrl shortUrl = shortUrlRepository.findByPath(path);
+        ShortUrl shortUrl = shortUrlRepository.findByPathAndIsActive(path, true);
         return Objects.isNull(shortUrl) ? MAIN_URL : shortUrl.getWebUrl();
+    }
+
+    @Override
+    public ShortUrlModel updateShortUrl(String path, String customPath, String webUrl) {
+        String newPath = StringUtils.isEmpty(customPath) ? path : customPath;
+        String newWebUrl = StringUtils.isEmpty(webUrl) ? getRouteUrl(path) : webUrl;
+        if (!existsPath(path)) {
+            throw new UrlShorteningFailureException.PathIsNotExist();
+        }
+        if (!StringUtils.isEmpty(customPath) && existsPath(newPath)) {
+            if (StringUtils.isEmpty(path)) {
+                throw new UrlShorteningFailureException.PathIsAlreadyInUseException();
+            }
+            throw new UrlShorteningFailureException.CustomPathIsAlreadyInUseException();
+        }
+
+        ShortUrl shortUrl = shortUrlRepository.findByPathAndIsActive(path, true);
+        shortUrl.setPath(newPath);
+        shortUrl.setWebUrl(newWebUrl);
+        return transform(shortUrlRepository.save(shortUrl));
+    }
+
+    @Override
+    public ShortUrlModel deleteShortUrl(String path) {
+        if (!existsPath(path)) {
+            throw new UrlShorteningFailureException.PathIsNotExist();
+        }
+        ShortUrl shortUrl = shortUrlRepository.findByPathAndIsActive(path, true);
+        shortUrl.setIsActive(Boolean.FALSE);
+        return transform(shortUrlRepository.save(shortUrl));
+    }
+
+    @Override
+    public ShortUrlModel showShortUrl(String path) {
+        if (!existsPath(path)) {
+            throw new UrlShorteningFailureException.PathIsNotExist();
+        }
+        return transform(shortUrlRepository.findByPathAndIsActive(path, true));
+    }
+
+    @Override
+    public List<ShortUrlModel> showAllShortUrl() {
+        shortUrlRepository.findAllByIsActive(true).orElseThrow(() -> new UrlShorteningFailureException.PathIsNotExist());
+        return shortUrlRepository.findAllByIsActive(true).get().stream().map(x -> transform(x)).collect(Collectors.toList());
     }
 
     private Boolean existsPath(String path) {

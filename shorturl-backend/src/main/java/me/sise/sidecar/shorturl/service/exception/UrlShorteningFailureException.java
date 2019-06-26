@@ -13,6 +13,10 @@ public class UrlShorteningFailureException extends RuntimeException {
         return new WebUrlIsAlreadyInUseException();
     }
 
+    public static PathIsNotExist PathIsNotExist() {
+        return new PathIsNotExist();
+    }
+
     public static class WebUrlIsAlreadyInUseException extends UrlShorteningFailureException {
         public WebUrlIsAlreadyInUseException() {
             super("webUrl is already in use.");
@@ -28,6 +32,12 @@ public class UrlShorteningFailureException extends RuntimeException {
     public static class PathIsAlreadyInUseException extends UrlShorteningFailureException {
         public PathIsAlreadyInUseException() {
             super("path is already in use.");
+        }
+    }
+
+    public static class PathIsNotExist extends UrlShorteningFailureException {
+        public PathIsNotExist() {
+            super("path is not exist.");
         }
     }
 
