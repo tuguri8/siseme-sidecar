@@ -32,7 +32,7 @@ public class ApiApplicationTests {
 	@Autowired
 	private WebApplicationContext ctx;
 	
-	private MockMvc mock;
+	private MockMvc mock; 
 
 	@Before
 	public void setUp() {
