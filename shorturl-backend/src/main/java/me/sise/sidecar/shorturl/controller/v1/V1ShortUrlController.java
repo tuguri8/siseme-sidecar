@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/urls")
 public class V1ShortUrlController {
-    private final ShortUrlService shortUrlService;
+	private final ShortUrlService shortUrlService;
 
-    public V1ShortUrlController(ShortUrlService shortUrlService) {
-        this.shortUrlService = shortUrlService;
-    }
+	public V1ShortUrlController(ShortUrlService shortUrlService) {
+		this.shortUrlService = shortUrlService;
+	}
 
-    @PostMapping
-    public V1ShortUrlResponse createShortUrl(@RequestBody V1ShortUrlRequest request) {
-        return new V1ShortUrlResponse(shortUrlService.createShortUrl(request.getPath(), request.getWebUrl()));
-    }
+	@PostMapping
+	public V1ShortUrlResponse createShortUrl(@RequestBody V1ShortUrlRequest request) {
+		return new V1ShortUrlResponse(shortUrlService.createShortUrl(request.getPath(), request.getWebUrl()));
+	}
 }

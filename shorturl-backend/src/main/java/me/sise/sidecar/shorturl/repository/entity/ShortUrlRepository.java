@@ -1,21 +1,14 @@
 package me.sise.sidecar.shorturl.repository.entity;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
-	ShortUrl findByPath(String path);
+public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long>{
 
-	@Modifying
-	@Transactional
-	@Query("DELETE FROM ShortUrl s WHERE s.path =:path")
-	int deleteByPath(@Param("path") String path);
+	ShortUrl findByPathAndIsActiveNot(String path, boolean isActive);
+
+	List<ShortUrl> findByIdGreaterThanAndIsActiveNot(Long id, boolean isActive);
 }
