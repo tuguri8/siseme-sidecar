@@ -68,7 +68,7 @@ public class ShortUrlServiceTest {
 	public void updateShortUrl() {
 		V1ShortUrlRequest request = new V1ShortUrlRequest();
 		request.setCustomPath("AAAAAAAA");
-		request.setPath("i8N3ibsG");
+		request.setPath("chqBnIDB");
 		request.setWebUrl("www.github.com");
 		service.updateShortUrl(request);
 	}

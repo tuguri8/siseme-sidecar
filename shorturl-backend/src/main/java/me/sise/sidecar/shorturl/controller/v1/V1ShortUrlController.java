@@ -3,7 +3,10 @@ package me.sise.sidecar.shorturl.controller.v1;
 import me.sise.sidecar.shorturl.controller.v1.dto.request.V1ShortUrlRequest;
 import me.sise.sidecar.shorturl.controller.v1.dto.response.V1ShortUrlResponse;
 import me.sise.sidecar.shorturl.service.ShortUrlService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +23,15 @@ public class V1ShortUrlController {
 	@PostMapping
 	public V1ShortUrlResponse createShortUrl(@RequestBody V1ShortUrlRequest request) {
 		return new V1ShortUrlResponse(shortUrlService.createShortUrl(request.getPath(), request.getWebUrl()));
+	}
+	
+	@PutMapping
+	public V1ShortUrlResponse updateShortUrl(@RequestBody V1ShortUrlRequest request) {
+		return new V1ShortUrlResponse(shortUrlService.updateShortUrl(request));
+	}
+	
+	@DeleteMapping
+	public V1ShortUrlResponse deleteShortUrl(@RequestBody V1ShortUrlRequest request) {
+		return new V1ShortUrlResponse(shortUrlService.deleteShortUrl(request.getPath()));
 	}
 }
