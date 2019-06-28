@@ -34,6 +34,7 @@ public class V1ShortUrlController {
         return shortUrlService.showAllShortUrl();
     }
 
+
     @GetMapping("/{path}")
     public V1ShortUrlResponse showShortUrl(@PathVariable String path) {
         return new V1ShortUrlResponse(shortUrlService.showShortUrl(path));
